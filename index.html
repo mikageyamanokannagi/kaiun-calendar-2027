@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>波動が整う開運カレンダー</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* Layout: 藍の表紙 → 一本の読み物カラム（最大720px）。暦注は「印（はんこ）」として日付に押す。 */
+:root{
+  --paper:#F2F4EA; --surface:#FCFCF6; --ink:#28321F; --muted:#636E58; --line:#D6DBC6;
+  --haru:#5A8636; --natsu:#1C6E69; --aki:#A9551B; --fuyu:#4A6285; --season:var(--ink);
+  --gold:#8F6608; --gold-bg:#F5E7BD;
+  --shu:#BC3828; --on-shu:#FFFFFF; --shu-bg:#F8E1DC;
+  --take:#276B57; --take-bg:#DAECE5;
+  --ai:#2A5596; --ai-bg:#DCE6F5;
+  --fuji:#6A3E8E; --fuji-bg:#ECDFF4; --on-fuji:#FFFFFF;
+  --hero-bg:#24382A; --hero-fg:#F2F4EA; --hero-muted:#B3C2AC; --hero-gold:#E3C05F; --hero-line:#42594A; --hero-hill:#34503B; --hero-hill2:#2C4433; --hero-hill3:#3F6149; --hero-snow:#C9D6C4;
+  --display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#131A14; --surface:#1B241C; --ink:#E6EADD; --muted:#9FA996; --line:#2F3B30;
+    --haru:#A6CC7C; --natsu:#6CC5BE; --aki:#E9A066; --fuyu:#9DB4D6;
+    --gold:#E3B95A; --gold-bg:#3B3115;
+    --shu:#E36A58; --on-shu:#1D0B08; --shu-bg:#42201B;
+    --take:#74C6AA; --take-bg:#173A31;
+    --ai:#8FB5EE; --ai-bg:#1C2F53; --fuji:#C7A0E6; --fuji-bg:#33214A; --on-fuji:#1A0F26;
+    --hero-bg:#0D140E; --hero-fg:#E6EADD; --hero-muted:#9FA996; --hero-gold:#E3C05F; --hero-line:#2F3B30; --hero-hill:#223528; --hero-hill2:#19271D; --hero-hill3:#2D4636; --hero-snow:#8FA08C;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131A14; --surface:#1B241C; --ink:#E6EADD; --muted:#9FA996; --line:#2F3B30;
+    --haru:#A6CC7C; --natsu:#6CC5BE; --aki:#E9A066; --fuyu:#9DB4D6;
+  --gold:#E3B95A; --gold-bg:#3B3115;
+  --shu:#E36A58; --on-shu:#1D0B08; --shu-bg:#42201B;
+  --take:#74C6AA; --take-bg:#173A31;
+  --ai:#8FB5EE; --ai-bg:#1C2F53; --fuji:#C7A0E6; --fuji-bg:#33214A; --on-fuji:#1A0F26;
+  --hero-bg:#0D140E; --hero-fg:#E6EADD; --hero-muted:#9FA996; --hero-gold:#E3C05F; --hero-line:#2F3B30; --hero-hill:#223528; --hero-hill2:#19271D; --hero-hill3:#2D4636; --hero-snow:#8FA08C;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.85;-webkit-text-size-adjust:100%}
+h1,h2,h3,p,ul,ol,dl,dd{margin:0}
+ul,ol{padding:0;list-style:none}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ai);outline-offset:2px}
+.wrap{max-width:720px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.num{font-variant-numeric:tabular-nums}
+
+/* 表紙 */
+.hero{background:var(--hero-bg);color:var(--hero-fg)}
+.hero .wrap{padding-block:48px 20px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:start}
+.hero-eyebrow{font-size:12px;letter-spacing:.24em;color:var(--hero-gold);font-weight:500}
+.hero h1{font-family:var(--display);font-weight:800;font-size:clamp(28px,7.600vw,56px);line-height:1.25;margin-top:12px;text-wrap:balance}
+.hero h1 small{display:block;font-size:.42em;font-weight:500;letter-spacing:.12em;color:var(--hero-muted);margin-bottom:6px}
+.hero-lead{margin-top:18px;color:var(--hero-muted);max-width:30em;font-size:15px}
+.eto{writing-mode:vertical-rl;font-family:var(--display);font-weight:800;font-size:clamp(44px,13vw,84px);line-height:1;color:var(--hero-gold);letter-spacing:.08em;border-left:1px solid var(--hero-line);padding-left:16px}
+.eto span{display:block;font-size:12px;font-family:var(--body);font-weight:500;letter-spacing:.3em;color:var(--hero-muted);margin-top:12px}
+.today{grid-column:1/-1;border-top:1px solid var(--hero-line);padding-top:20px;display:grid;gap:14px}
+.today-row{display:grid;grid-template-columns:5.5em 1fr;gap:12px;align-items:baseline}
+.today-label{font-size:12px;letter-spacing:.14em;color:var(--hero-gold)}
+.today-main{font-family:var(--display);font-size:19px;font-weight:700;line-height:1.5}
+.today-sub{font-size:14px;color:var(--hero-muted)}
+.hills{display:block;width:100%;height:clamp(64px,12vw,130px)}
+.hills .near{fill:var(--hero-hill3)}
+.hills .far{fill:var(--hero-hill2)} .hills .back{fill:var(--hero-hill)} .hills .snow{fill:var(--hero-snow)} .hills .front{fill:var(--paper)}
+.hills .gold{fill:var(--hero-gold)} .hills .glow{fill:var(--hero-gold);opacity:.14}
+.hills .ln,.hills .lf,.hills .lg,.hills .ls{fill:none;stroke-linecap:round;stroke-width:3}
+.hills .ln{stroke:var(--hero-hill)} .hills .lf{stroke:var(--hero-hill2)} .hills .lg{stroke:var(--hero-gold)} .hills .ls{stroke:var(--hero-snow);stroke-width:2.500}
+.ico{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.s-haru{--season:var(--haru)} .s-natsu{--season:var(--natsu)} .s-aki{--season:var(--aki)} .s-fuyu{--season:var(--fuyu)}
+.jump{justify-self:start;background:var(--hero-gold);color:#22301F;border:0;border-radius:3px;padding:10px 20px;font-weight:700;font-size:14px;cursor:pointer}
+.jump:hover{filter:brightness(1.08)}
+
+/* 月ナビ */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--paper);border-bottom:1px solid var(--line)}
+.nav .wrap{padding-block:10px}
+.nav ol{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-block:2px}
+.nav ol::-webkit-scrollbar{display:none}
+.nav button{flex:none;min-width:44px;height:36px;padding:0 10px;background:var(--surface);border:1px solid var(--line);border-radius:3px;font-size:14px;cursor:pointer;white-space:nowrap}
+.nav button[aria-current="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink);font-weight:700}
+.nav .yr{flex:none;align-self:center;font-size:11px;color:var(--muted);letter-spacing:.08em;padding:0 2px}
+
+/* 節 */
+section{padding-block:44px 8px}
+.sec-label{font-size:12px;letter-spacing:.22em;color:var(--gold);font-weight:700}
+h2{font-family:var(--display);font-weight:700;font-size:26px;line-height:1.4;margin-top:4px;text-wrap:balance}
+.lead{margin-top:12px;color:var(--muted);max-width:34em}
+
+/* 印 */
+.seal{display:inline-grid;place-items:center;width:1.5em;height:1.5em;border-radius:3px;font-family:var(--display);font-weight:700;font-size:13px;line-height:1;flex:none;border:1.5px solid}
+.seal.man{background:var(--gold-bg);border-color:var(--gold);color:var(--gold)}
+.seal.sha{background:var(--shu);border-color:var(--shu);color:var(--on-shu)}
+.seal.mi{background:var(--take-bg);border-color:var(--take);color:var(--take)}
+.seal.tora{background:var(--ai-bg);border-color:var(--ai);color:var(--ai)}
+.moon{display:inline-block;width:.85em;height:.85em;border-radius:50%;border:1.5px solid var(--ink);flex:none;font-size:13px}
+.moon.new{background:var(--ink)}
+.moon.full{background:var(--gold-bg);border-color:var(--gold)}
+
+.seal.p{border-radius:50%;background:var(--fuji-bg);border-color:var(--fuji);color:var(--fuji)}
+.seal.p.megumi{background:var(--fuji);color:var(--on-fuji)}
+
+/* 日干 */
+.kan{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:22px}
+.kan button{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 2px 10px;display:grid;justify-items:center;gap:4px;cursor:pointer}
+.kan button .ico{color:var(--muted)}
+.kan button[aria-pressed="true"] .ico{color:inherit}
+.kan button b{font-family:var(--display);font-size:17px;line-height:1.3;font-weight:700}
+.kan button span{font-size:12px;line-height:1.3;color:var(--muted)}
+.kan button[aria-pressed="true"]{background:var(--fuji);border-color:var(--fuji);color:var(--on-fuji)}
+.kan button[aria-pressed="true"] span{color:inherit}
+.birth{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:14px}
+.birth input{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:6px 8px;max-width:100%}
+.birth small{flex-basis:100%;color:var(--muted);font-size:12.5px}
+.me{margin-top:24px;border:1px solid var(--fuji);background:var(--surface);padding:18px 16px}
+.me{border-radius:10px}
+.me h3{font-family:var(--display);font-size:22px;font-weight:700;line-height:1.4;display:flex;align-items:center;gap:10px}
+.me h3 .ico{color:var(--fuji)}
+.me>p{color:var(--muted);font-size:15px;margin-top:2px}
+.me ul{margin-top:12px;display:grid;gap:12px}
+.me li{display:grid;grid-template-columns:auto 1fr;gap:2px 12px}
+.me li .seal{grid-row:1/3;font-size:16px;margin-top:3px}
+.me li b{font-size:15px}
+.me li b small{font-weight:400;color:var(--muted);font-size:13px;margin-left:6px}
+.me li span.x{font-size:14.5px;color:var(--muted);grid-column:2;min-width:0}
+.me .share{margin-top:14px;font-size:12.5px;color:var(--muted)}
+.me .share code{font-family:ui-monospace,Consolas,monospace;color:var(--ink)}
+
+/* 見方 */
+.legend{margin-top:22px;border-top:1px solid var(--line)}
+.legend li{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.legend .seal,.legend .moons{grid-row:1/3;align-self:start;margin-top:4px}
+.legend .seal{font-size:18px}
+.legend .moons{display:flex;gap:4px;width:27px;justify-content:center;padding-top:6px}
+.legend b{font-family:var(--display);font-size:18px;font-weight:700;line-height:1.5}
+.legend b small{font-family:var(--body);font-size:12px;font-weight:400;color:var(--muted);margin-left:8px}
+.legend p{font-size:14.5px;color:var(--muted);grid-column:2;min-width:0}
+
+/* 特に良い日 */
+.best{margin-top:22px;display:grid;gap:10px}
+.best li{display:grid;grid-template-columns:7.2em 1fr;gap:12px;align-items:baseline;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--shu);padding:12px 14px;cursor:pointer}
+.best li.dbl{background:var(--shu-bg)}
+.best .d{font-family:var(--display);font-weight:700;font-size:18px}
+.best .d small{font-family:var(--body);font-size:12px;font-weight:400;color:var(--muted);margin-left:4px}
+.best .t{font-size:14px;min-width:0}
+.best .t b{color:var(--shu)}
+.best li.sp{border-left-color:var(--fuji);background:var(--fuji-bg)}
+.best li.sp .t b{color:var(--fuji)}
+.cell.sp{box-shadow:inset 0 0 0 2px var(--fuji)}
+.days .do.mine{color:var(--fuji)}
+.days .dbl-flag.mine-flag{background:var(--fuji);color:var(--on-fuji);margin-right:6px}
+.note{margin-top:14px;font-size:13.5px;color:var(--muted)}
+
+/* 月 */
+.month{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 64px)}
+.m-head{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:10px}
+.month .m-head{border-bottom-color:var(--season)}
+.m-num{font-family:var(--display);font-weight:800;font-size:54px;line-height:1;color:var(--season)}
+.m-num small{font-size:20px;font-weight:700;margin-left:2px}
+.m-meta{font-size:12px;letter-spacing:.14em;color:var(--muted);line-height:1.6;padding-bottom:4px}
+.m-meta b{display:block;font-family:var(--display);font-size:17px;letter-spacing:.2em;color:var(--ink)}
+.m-theme{font-family:var(--display);font-weight:700;font-size:20px;margin-top:18px}
+.m-text{margin-top:6px;color:var(--muted);font-size:15px;max-width:34em}
+
+.grid{margin-top:20px;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:1px solid var(--line);border-left:1px solid var(--line);background:var(--surface)}
+.dow{font-size:11.5px;text-align:center;padding:5px 0;color:var(--muted);border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--paper)}
+.dow.sun{color:var(--shu)} .dow.sat{color:var(--ai)}
+.cell{min-height:62px;border:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:transparent;padding:5px 4px 6px;display:flex;flex-direction:column;gap:5px;align-items:flex-start;text-align:left;border-radius:0}
+.cell .n{font-size:14px;line-height:1;font-weight:500}
+.cell.sun .n{color:var(--shu)} .cell.sat .n{color:var(--ai)}
+.cell .marks{display:flex;flex-wrap:wrap;gap:3px;align-items:center}
+button.cell{cursor:pointer}
+button.cell:hover{background:var(--paper)}
+.cell.has-sha{background:var(--shu-bg)}
+.cell.today .n{background:var(--ink);color:var(--paper);border-radius:50%;width:22px;height:22px;display:grid;place-items:center;margin:-4px 0 -4px -3px}
+.cell.blank{background:var(--paper)}
+
+.days{margin-top:8px}
+.days li{display:grid;grid-template-columns:4.6em 1fr;gap:12px;padding:16px 8px;border-bottom:1px solid var(--line);scroll-margin-top:calc(env(safe-area-inset-top,0px) + 76px);transition:background .6s}
+.days li.hit{background:var(--gold-bg)}
+.days .date{font-family:var(--display);font-weight:700;font-size:20px;line-height:1.3}
+.days .date small{display:block;font-family:var(--body);font-weight:400;font-size:12px;color:var(--muted)}
+.days .body{min-width:0}
+.days .tags{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;font-size:14px;font-weight:700}
+.days .tags .k{font-weight:400;font-size:12px;color:var(--muted);margin-left:2px}
+.days .do{margin-top:4px;font-size:15px;line-height:1.75}
+.days .dbl-flag{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.08em;color:var(--on-shu);background:var(--shu);padding:1px 8px;border-radius:2px;margin-bottom:6px}
+
+.hero-by{margin-top:14px;font-family:var(--display);font-size:16px;letter-spacing:.12em;color:var(--hero-fg)}
+.closing{margin-top:64px;background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.closing .wrap{padding-block:56px;display:grid;gap:22px;justify-items:center;text-align:center}
+.closing h2{font-size:24px;line-height:1.7;margin:0}
+.closing .rule{width:44px;height:2px;background:var(--gold)}
+.closing p{max-width:30em;color:var(--muted);text-wrap:balance}
+.closing .wish{font-family:var(--display);font-weight:700;font-size:18px;line-height:1.9;color:var(--ink)}
+.closing .by{font-family:var(--display);font-size:17px;letter-spacing:.12em;color:var(--ink);margin-top:6px}
+footer .wrap{padding-block:32px 44px;font-size:13px;color:var(--muted);display:grid;gap:10px;justify-items:center;text-align:center}
+footer .name{font-family:var(--display);font-size:14px;letter-spacing:.06em}
+@media (max-width:420px){
+  .hero .wrap{padding-block:36px 32px;gap:16px}
+  .cell{min-height:58px;padding:5px 3px}
+  .seal{font-size:12px}
+  .best li{grid-template-columns:1fr;gap:2px}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+<meta name="description" content="本質を選ぶと、あなただけの開運日がわかる2027年の開運カレンダー。">
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <p class="hero-eyebrow">KAIUN CALENDAR 2027</p>
+      <h1><small>令和九年・ひのとひつじ</small>2027年<br>波動が整う<br>開運カレンダー</h1>
+      <p class="hero-lead">印のついた日に、小さなことをひとつだけ。2026年12月の助走から、2027年12月までの13か月です。</p>
+      <p class="hero-by">山の巫　みかげ</p>
+    </div>
+    <div class="eto" aria-hidden="true">丁未<span>HINOTO-HITSUJI</span></div>
+    <div class="today" id="today"></div>
+  </div>
+  <svg class="hills" viewBox="0 0 1200 160" preserveAspectRatio="none" aria-hidden="true">
+    <path class="far" d="M0,62 C50,40 110,34 170,52 S270,84 340,60 S450,24 530,48 S640,86 720,58 S830,22 910,46 S1020,80 1090,56 S1170,36 1200,50 V160 H0Z"/>
+    <path class="back" d="M0,96 C60,74 130,72 200,92 S320,116 400,94 S510,64 590,88 S700,118 790,92 S900,66 980,86 S1090,112 1150,94 S1190,84 1200,88 V160 H0Z"/>
+    <path class="near" d="M0,124 C70,106 150,104 230,120 S370,138 450,120 S570,100 650,116 S770,138 860,120 S980,102 1060,116 S1160,130 1200,120 V160 H0Z"/>
+    <path class="front" d="M0,146 C80,128 170,128 260,142 S410,154 500,140 S640,124 730,138 S880,154 970,140 S1110,126 1200,142 V161 H0Z"/>
+  </svg>
+</header>
+
+<nav class="nav" aria-label="月を選ぶ"><div class="wrap"><ol id="nav"></ol></div></nav>
+
+<main>
+  <section class="wrap" id="kan">
+    <p class="sec-label">あなたの本質</p>
+    <h2>あなたの本質を選んでください。開運日をお届けします。</h2>
+    <p class="lead">鑑定書の「本質」と同じものを選んでください。あなただけの日を暦に重ねます。</p>
+    <div class="kan" id="kanBtns"></div>
+    <div class="birth">
+      <label for="birth">生年月日から調べる</label>
+      <input type="date" id="birth" min="1900-01-01" max="2026-12-31">
+      <span id="birthOut" aria-live="polite"></span>    </div>
+    <div class="me" id="me" hidden></div>
+  </section>
+
+  <section class="wrap" id="howto">
+    <p class="sec-label">見方</p>
+    <h2>印のある日だけ、見れば大丈夫</h2>
+    <p class="lead">四角い印が、みんなに共通の暦注。丸い紫の印が、あなたの本質で決まる日です。日付をタップすると、その日の過ごし方へ移動します。印のない日は、いつも通りに。</p>
+    <ul class="legend">
+      <li><span class="seal sha">赦</span><b>天赦日<small>てんしゃにち</small></b><p>天がすべてを赦すとされる、暦の上で最上の吉日。年に数回だけ巡ってきます。入籍、開業、大きな買い物など、節目の始めごとに。</p></li>
+      <li><span class="seal man">万</span><b>一粒万倍日<small>いちりゅうまんばいび</small></b><p>一粒の籾が万倍に実るとされる日。始めること、種をまくことに向きます。借りごとも増えるとされるので、借金や人に物を借りるのは避けます。</p></li>
+      <li><span class="seal mi">巳</span><b>巳の日・己巳の日<small>みのひ・つちのとみのひ</small></b><p>弁財天にゆかりのある金運の日。財布や通帳まわりを整えるのに向きます。60日に一度の己巳の日は、とくに縁起がよいとされます。</p></li>
+      <li><span class="seal tora">寅</span><b>寅の日<small>とらのひ</small></b><p>虎は千里を行って千里を帰る。出ていったものが戻るとされ、旅立ちやお金を使うことに向く日です。</p></li>
+      <li><span class="moons"><i class="moon new"></i><i class="moon full"></i></span><b>新月・満月</b><p>新月は願いを書く夜、満月は実ったことを数えて、いらないものを手放す夜。</p></li>
+    </ul>
+  </section>
+
+  <section class="wrap" id="best">
+    <p class="sec-label">特に良い日</p>
+    <h2 id="bestTitle">2027年の天赦日</h2>
+    <p class="lead" id="bestLead"></p>
+    <ol class="best" id="bestList"></ol>
+    <p class="note" id="counts"></p>
+  </section>
+
+  <div id="months"></div>
+
+  <section class="closing">
+    <div class="wrap">
+      <h2>最後まで読んでくださって、<br>ありがとうございます。</h2>
+      <span class="rule"></span>
+      <p>まずは今月のページで、<br>印のある日をひとつ見つけてみてください。</p>
+      <p class="wish">2027年、あなたの波動が整い、<br>良い日が重なっていきますように。</p>
+      <p class="by">山の巫　みかげ</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="name">2027年 波動が整う開運カレンダー</p>
+    <p>暦注は昔から暮らしに伝わる慣習で、効果を約束するものではありません。</p>
+    <p>© 山の巫　みかげ</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var DAY=864e5, RAD=Math.PI/180;
+var STEM="甲乙丙丁戊己庚辛壬癸", BR="子丑寅卯辰巳午未申酉戌亥", DOW="日月火水木金土";
+
+/* ---- 暦の計算 ---- */
+function dn(y,m,d){return Math.round(Date.UTC(y,m-1,d)/DAY)}        // 通日
+function ymd(n){var t=new Date(n*DAY);return{y:t.getUTCFullYear(),m:t.getUTCMonth()+1,d:t.getUTCDate(),w:t.getUTCDay()}}
+function kanshi(n){return((n+17)%60+60)%60}                          // 0=甲子
+function sunLon(jd){                                                 // 太陽の視黄経（度）
+  var T=(jd-2451545)/36525;
+  var L0=280.46646+36000.76983*T+0.0003032*T*T;
+  var M=(357.52911+35999.05029*T-0.0001537*T*T)*RAD;
+  var C=(1.914602-0.004817*T-0.000014*T*T)*Math.sin(M)+(0.019993-0.000101*T)*Math.sin(2*M)+0.000289*Math.sin(3*M);
+  var om=(125.04-1934.136*T)*RAD;
+  return(((L0+C-0.00569-0.00478*Math.sin(om))%360)+360)%360;
+}
+function setsuMonth(n){                                              // 節月 0=立春〜 … 11=小寒〜（その日の終わり時点で判定）
+  var lon=sunLon(n+2440587.5+15/24);
+  return Math.floor((((lon-315)%360+360)%360)/30);
+}
+var MAN=[[1,6],[9,2],[0,3],[3,4],[5,6],[9,6],[0,7],[3,8],[9,6],[9,10],[11,0],[3,0]]; // 一粒万倍日の十二支
+var SHA=[14,14,14,30,30,30,44,44,44,0,0,0];                          // 天赦日: 戊寅/甲午/戊申/甲子
+function moonJde(k){                                                 // 朔(k整数)・望(k+0.5)
+  var full=Math.abs(k%1)>0.25, T=k/1236.85;
+  var E=1-0.002516*T;
+  var M=(2.5534+29.1053567*k)*RAD, Mp=(201.5643+385.81693528*k+0.0107582*T*T)*RAD,
+      F=(160.7108+390.67050284*k-0.0016118*T*T)*RAD, Om=(124.7746-1.56375588*k)*RAD;
+  var c=full?[-0.40614,0.17302,0.01614,0.01043,0.00734,-0.00515,0.00209]:[-0.40720,0.17241,0.01608,0.01039,0.00739,-0.00514,0.00208];
+  var s=c[0]*Math.sin(Mp)+c[1]*E*Math.sin(M)+c[2]*Math.sin(2*Mp)+c[3]*Math.sin(2*F)+c[4]*E*Math.sin(Mp-M)+c[5]*E*Math.sin(Mp+M)+c[6]*E*E*Math.sin(2*M)
+    -0.00111*Math.sin(Mp-2*F)-0.00057*Math.sin(Mp+2*F)+0.00056*E*Math.sin(2*Mp+M)-0.00042*Math.sin(3*Mp)
+    +0.00042*E*Math.sin(M+2*F)+0.00038*E*Math.sin(M-2*F)-0.00024*E*Math.sin(2*Mp-M)-0.00017*Math.sin(Om);
+  return 2451550.09766+29.530588861*k+0.00015437*T*T+s;
+}
+var MOON={}, MOONT=[];
+(function(){
+  for(var k=325;k<=352;k++){[k,k+0.5].forEach(function(kk){
+    var jst=moonJde(kk)-72/86400-2440587.5+9/24;                     // ΔT≈72秒を引き、日本時間へ
+    var n=Math.floor(jst); MOON[n]=(kk%1)?"full":"new"; MOONT.push({n:n,type:MOON[n],frac:jst-n});
+  });}
+})();
+function info(n){
+  var k=kanshi(n), b=k%12, sm=setsuMonth(n), o=ymd(n);
+  o.n=n; o.k=k; o.stem=k%10; o.kanshi=STEM[k%10]+BR[b];
+  o.man=MAN[sm].indexOf(b)>=0; o.sha=k===SHA[sm];
+  o.mi=b===5; o.tsuchi=k===5; o.tora=b===2; o.moon=MOON[n]||null;
+  o.lucky=o.man||o.sha||o.mi||o.tora; o.marked=o.lucky||!!o.moon;
+  return o;
+}
+
+/* ---- ことば ---- */
+var MONTHS=[
+ [2026,12,"師走","助走の月","年が明ける前に、手放すものと持っていくものを分けておきます。来年やりたいことは、まだひとつで十分です。"],
+ [2027,1,"睦月","決める月","一年の願いを、場面で思い描きます。朝の台所、帰り道、週末の机。具体的なほど、動きやすくなります。"],
+ [2027,2,"如月","根を張る月","立春から暦の上では丁未の年。寒いうちは無理に動かず、毎日の小さな習慣をひとつ決めます。"],
+ [2027,3,"弥生","芽を出す月","始めたいことを、小さく試してみる月です。うまくいかなくても、試した分だけ次が見えます。"],
+ [2027,4,"卯月","伸ばす月","環境が変わりやすい季節。予定を詰めすぎず、続けたいことにだけ時間を残しておきます。"],
+ [2027,5,"皐月","風を通す月","窓を開け、引き出しを開け、財布を開ける。たまったものを出して、風を通します。"],
+ [2027,6,"水無月","折り返す月","半年の折り返し。できたことを先に数えてから、後半の予定を見直します。"],
+ [2027,7,"文月","伝える月","お礼や近況を、短い言葉で届ける月です。長い手紙より、今日の一通を。"],
+ [2027,8,"葉月","休む月","暑さの盛りは、休むことも段取りのうち。眠ること、食べることを先に整えます。"],
+ [2027,9,"長月","見直す月","夜が長くなる月。年のはじめの願いを読み返して、変わったところを確かめます。"],
+ [2027,10,"神無月","受け取る準備の月","実りを置く場所を、先に空けておきます。お金の置き場所と使い道を決める月です。"],
+ [2027,11,"霜月","実りを数える月","今年できたことを、ひとつずつ書き出します。小さなことほど、忘れる前に。"],
+ [2027,12,"師走","分かち合う月","一年の実りを、誰かと分ける月です。お礼を伝えて、次の年の種をひとつ選びます。"]
+];
+var POOL={
+ man:["始めたいことを、ノートの1ページ目に書いてみましょう。","続けたい習慣を、今日1回だけやってみましょう。","決めた金額を、貯金用の口座か封筒に移してみましょう。少額で大丈夫です。","気になっていた本や講座を、ひとつ申し込んでみましょう。","お世話になった人に、短いお礼を送ってみましょう。","来月の楽しみな予定を、ひとつ手帳に入れてみましょう。"],
+ mi:["財布の中身を全部出して、レシートを捨て、お札の向きをそろえてみましょう。","通帳や家計のアプリを開いて、今月の残高を確かめてみましょう。","小銭入れや貯金箱をひと拭きして、置き場所を決めてみましょう。"],
+ tora:["行きたい場所をひとつ決めて、日にちを仮で入れてみましょう。","長く使うものをひとつ、納得のいく値段で選んでみましょう。","会いたい人に、こちらから連絡してみましょう。"],
+ tsuchi:["60日に一度の己巳の日。お金の目標額と、その使い道を紙に書いてみましょう。"],
+ sha:["先延ばしにしていたことを、ひとつだけ始めてみましょう。最初の一歩で十分です。"],
+ dbl:["天赦日と一粒万倍日が重なる日。大事な始めごとは、この日に。願いを紙に書いて、目に入る場所へ置いてみましょう。"],
+ "new":"新月の夜。願いをひとつ書いてみましょう。",
+ full:"満月の夜。今月できたことを3つ数えてみましょう。"
+};
+/* 月ごとのアドバイス（MONTHS と同じ並び）。無い種類は POOL を使う */
+var MADV=[
+ {man:["来年やりたいことを、ひとつだけ紙に書いてみましょう。","今年お世話になった人に、短いお礼を送ってみましょう。","来年の手帳やカレンダーを、ひとつ用意してみましょう。","年明けに始めたいことの下調べを、10分だけしてみましょう。"],
+  mi:["財布の中のレシートやポイントカードを、年内に整理してみましょう。","今年のお金の出入りを、ざっと振り返ってみましょう。"],
+  tora:["年末年始に行きたい場所を、ひとつ決めてみましょう。","来年長く使うものを、ひとつ選んでみましょう。"],
+  "new":"新月の夜。来年の願いをひとつ書いてみましょう。",full:"満月の夜。今年できたことを3つ数えてみましょう。",
+  p_megumi:"今年教わったことを、ひとつ思い出して書き留めてみましょう。",p_musubi:"年内に会っておきたい人に、連絡してみましょう。",p_self:"今年の自分をねぎらう時間を、30分とってみましょう。",
+  dbl:"天赦日と一粒万倍日が重なる日。大事な始めごとは、この日に。来年いちばん叶えたいことを紙に書いて、目に入る場所へ置いてみましょう。",
+  tsuchi:"60日に一度の己巳の日。来年のお金の目標額を、ひとつ決めてみましょう。"},
+ {man:["一年の願いを、ノートの1ページ目に書いてみましょう。","続けたい習慣を、今日1回だけやってみましょう。","今年行きたい場所を、ひとつ書き出してみましょう。","新しい手帳に、楽しみな予定をひとつ入れてみましょう。"],
+  mi:["新年の財布の中身を整えて、お札の向きをそろえてみましょう。","今年の貯金の目標を、数字で書いてみましょう。"],
+  tora:["初詣や行きたい場所へ、足を運んでみましょう。","今年会いたい人に、新年のあいさつを送ってみましょう。"],
+  "new":"新月の夜。今年の願いをひとつ書いてみましょう。",full:"満月の夜。年が明けてからできたことを3つ数えてみましょう。",
+  p_megumi:"今年学びたいことを、ひとつ決めてみましょう。",p_musubi:"今年大切にしたい人の名前を、3人書いてみましょう。",p_self:"どんな一年にしたいか、声に出してみましょう。"},
+ {man:["毎日の小さな習慣を、ひとつ決めてみましょう。","朝の5分でできることを、ひとつ試してみましょう。","体をあたためる食事を、一品作ってみましょう。","続けている習慣を、カレンダーに印をつけて数えてみましょう。"],
+  mi:["家計の固定費を、ひとつ見直してみましょう。","財布や通帳の置き場所を、ひとつ決めてみましょう。"],
+  tora:["春に出かけたい場所を、調べてみましょう。","長く使う日用品を、ひとつ選び直してみましょう。"],
+  "new":"新月の夜。立春からの一年の願いを書いてみましょう。",full:"満月の夜。続けられたことを3つ数えてみましょう。",
+  p_megumi:"あたたかくして、いつもより30分早く休んでみましょう。",p_musubi:"しばらく会っていない人に、近況を尋ねてみましょう。",p_self:"靴をひとつ磨いて、足元を整えてみましょう。",
+  sha:"立春を過ぎて最初の天赦日。寅の日とも重なります。今年始めたいことを、ひとつだけ始めてみましょう。",
+  tsuchi:"60日に一度の己巳の日。今年のお金の使い道を、ひとつ紙に書いてみましょう。"},
+ {man:["始めたいことを、小さく一度試してみましょう。","気になっていた講座や本を、ひとつ申し込んでみましょう。","新しい道具やノートを、ひとつおろしてみましょう。","やってみたいことを、人に話してみましょう。"],
+  mi:["春の出費の予定を、書き出してみましょう。","使っていない口座やカードを、ひとつ確かめてみましょう。"],
+  tora:["行ったことのない場所へ、出かけてみましょう。","新生活に向けて、長く使うものを選んでみましょう。"],
+  "new":"新月の夜。試してみたいことをひとつ書いてみましょう。",full:"満月の夜。この春に芽が出たことを3つ数えてみましょう。",
+  p_megumi:"詳しい人に、ひとつ質問してみましょう。",p_musubi:"春から関わる人に、先にあいさつしてみましょう。",p_self:"本当にやりたいことを、ひとつ選んでみましょう。"},
+ {man:["続けたいことに、週に一度の時間を決めてみましょう。","新しく出会った人に、ひとこと声をかけてみましょう。","今月の予定をひとつ減らして、余白を作ってみましょう。","伸ばしたい力をひとつ決めて、10分練習してみましょう。"],
+  mi:["新年度の家計の予算を、ざっくり立ててみましょう。","財布の中を軽くして、必要なカードだけにしてみましょう。"],
+  tora:["連休の行き先を、ひとつ決めてみましょう。","通勤や散歩の道を、ひとつ変えてみましょう。"],
+  "new":"新月の夜。この春に伸ばしたいことを書いてみましょう。",full:"満月の夜。新しい環境でできたことを3つ数えてみましょう。",
+  p_megumi:"疲れをためないよう、湯船にゆっくりつかってみましょう。",p_musubi:"新しく知り合った人を、お茶に誘ってみましょう。",p_self:"予定をひとつ見直して、自分のペースを確かめてみましょう。",
+  sha:"春の天赦日。寅の日とも重なります。先延ばしにしていたことを、ひとつだけ始めてみましょう。",
+  tsuchi:"60日に一度の己巳の日。新年度のお金の目標を、紙に書いてみましょう。"},
+ {man:["窓を開けて、部屋に風を通してみましょう。","引き出しをひとつ開けて、使わないものを出してみましょう。","新しいことを始める前に、古い予定をひとつ手放してみましょう。","気持ちのいい場所で、やりたいことを書き出してみましょう。"],
+  mi:["財布の中身を全部出して、風を通してみましょう。","使っていないサービスの契約を、ひとつ見直してみましょう。"],
+  tora:["新緑のきれいな場所へ、出かけてみましょう。","かばんの中身を出して、軽くしてみましょう。"],
+  "new":"新月の夜。手放したいことと迎えたいことを、ひとつずつ書いてみましょう。",full:"満月の夜。すっきりしたことを3つ数えてみましょう。",
+  p_megumi:"外の空気を吸いに、10分だけ歩いてみましょう。",p_musubi:"誰かを誘って、外で食事をしてみましょう。",p_self:"自分の持ち物を、ひとつ手入れしてみましょう。",
+  sha:"初夏の天赦日。迷っていたことにひとつ答えを出して、始めてみましょう。"},
+ {man:["半年でできたことを、5つ書き出してみましょう。","後半にやりたいことを、ひとつ決めてみましょう。","年のはじめの願いを、読み返してみましょう。","止まっていたことを、今日1回だけ再開してみましょう。"],
+  mi:["半年分のお金の出入りを、ざっと確かめてみましょう。","雨の日に備えて、財布やかばんを手入れしてみましょう。"],
+  tora:["夏の旅の予定を、仮で入れてみましょう。","雨の日が楽しくなるものを、ひとつ選んでみましょう。"],
+  "new":"新月の夜。後半の願いをひとつ書いてみましょう。",full:"満月の夜。半年でできたことを3つ数えてみましょう。",
+  p_megumi:"雨の音を聞きながら、読みたかった本を開いてみましょう。",p_musubi:"半年お世話になった人に、お礼を伝えてみましょう。",p_self:"半年がんばった自分に、小さなごほうびを選んでみましょう。",
+  tsuchi:"60日に一度の己巳の日。後半のお金の目標と使い道を、紙に書いてみましょう。"},
+ {man:["お世話になった人に、暑中見舞いを一通書いてみましょう。","伝えそびれていた「ありがとう」を、ひとつ届けてみましょう。","自分の願いを、信頼できる人に話してみましょう。","短冊に書くつもりで、願いをひとつ言葉にしてみましょう。"],
+  mi:["贈りものの予算を、先に決めてみましょう。","夏の出費の予定を、書き出してみましょう。"],
+  tora:["会いたい人に、会う日を決めて連絡してみましょう。","夏休みの行き先を、ひとつ決めてみましょう。"],
+  "new":"新月の夜。伝えたい言葉をひとつ書いてみましょう。",full:"満月の夜。今月伝えられたことを3つ数えてみましょう。",
+  p_megumi:"人からもらった言葉を、ひとつ書き留めてみましょう。",p_musubi:"大切な人に、近況を短く送ってみましょう。",p_self:"自分の気持ちを、3行だけ書いてみましょう。",
+  dbl:"天赦日と一粒万倍日が重なる日。大事な始めごとは、この日に。伝えたい願いを紙に書いて、目に入る場所へ置いてみましょう。"},
+ {man:["何もしない時間を、30分だけ予定に入れてみましょう。","秋から始めたいことを、ひとつ書いてみましょう。","朝の涼しい時間に、やりたいことをひとつ進めてみましょう。","体が喜ぶ食事を、一品選んでみましょう。"],
+  mi:["夏に使ったお金を、ざっと確かめてみましょう。","小銭入れや貯金箱の中身を、数えてみましょう。"],
+  tora:["涼しい場所へ、少し足をのばしてみましょう。","ふるさとや懐かしい場所に、連絡してみましょう。"],
+  "new":"新月の夜。休んだあとにやりたいことを、ひとつ書いてみましょう。",full:"満月の夜。この夏うれしかったことを3つ数えてみましょう。",
+  p_megumi:"いつもより早く、布団に入ってみましょう。",p_musubi:"家族や親しい人と、ゆっくり食事をしてみましょう。",p_self:"好きなことだけをする時間を、1時間とってみましょう。",
+  tsuchi:"60日に一度の己巳の日。秋に向けたお金の予定を、紙に書いてみましょう。"},
+ {man:["年のはじめの願いを読み返して、ひとつ書き直してみましょう。","年内にやりたいことを、3つに絞ってみましょう。","秋から始めたいことを、今日1回やってみましょう。","読みたかった本を、ひとつ手に取ってみましょう。"],
+  mi:["毎月の支払いを、ひとつ見直してみましょう。","年末までに貯めたい金額を、書いてみましょう。"],
+  tora:["秋の旅の予定を、ひとつ立ててみましょう。","衣替えをして、長く着たい服を選んでみましょう。"],
+  "new":"新月の夜。年内に叶えたいことをひとつ書いてみましょう。",full:"満月の夜。月を眺めながら、変わったことを3つ数えてみましょう。",
+  p_megumi:"夜の時間に、学びたいことを10分だけ進めてみましょう。",p_musubi:"相談したかったことを、人に話してみましょう。",p_self:"今の自分に合わなくなったものを、ひとつ手放してみましょう。",
+  dbl:"天赦日と一粒万倍日が重なる日。大事な始めごとは、この日に。年内に叶えたいことを紙に書いて、目に入る場所へ置いてみましょう。"},
+ {man:["机か玄関を、1か所だけ整えてみましょう。","受け取りたいものを、ひとつ具体的に書いてみましょう。","使っていないものを、ひとつ譲ってみましょう。","来月の楽しみな予定を、ひとつ手帳に入れてみましょう。"],
+  mi:["お金の置き場所を、ひとつ決めてみましょう。","通帳や家計のアプリを開いて、残高を確かめてみましょう。"],
+  tora:["実りの季節を味わいに、出かけてみましょう。","冬に長く使うものを、ひとつ選んでみましょう。"],
+  "new":"新月の夜。受け取りたいものをひとつ書いてみましょう。",full:"満月の夜。もう手元にあるものを3つ数えてみましょう。",
+  p_megumi:"人からの親切を、遠慮せずに受け取ってみましょう。",p_musubi:"旬のものを、誰かと分け合ってみましょう。",p_self:"自分の居場所を、1か所だけ心地よくしてみましょう。",
+  tsuchi:"60日に一度の己巳の日。入ってくるお金の置き場所と使い道を、紙に書いてみましょう。"},
+ {man:["今年できたことを、5つ書き出してみましょう。","実ったことを、誰かに話してみましょう。","来年も続けたいことを、ひとつ選んでみましょう。","がんばった自分に、小さなごほうびを決めてみましょう。"],
+  mi:["今年貯められた金額を、確かめてみましょう。","年末の出費の予定を、書き出してみましょう。"],
+  tora:["紅葉や秋の景色を見に、出かけてみましょう。","お世話になった人への贈りものを、選んでみましょう。"],
+  "new":"新月の夜。年内にあとひとつ叶えたいことを書いてみましょう。",full:"満月の夜。今年実ったことを3つ数えてみましょう。",
+  p_megumi:"今年助けてくれた人を、3人思い浮かべてみましょう。",p_musubi:"感謝を伝えたい人に、連絡してみましょう。",p_self:"今年のいちばんの成長を、ひとつ書いてみましょう。"},
+ {man:["お世話になった人に、お礼の言葉を送ってみましょう。","来年の種になる願いを、ひとつ選んでみましょう。","今年の実りを、誰かと分け合ってみましょう。","来年の手帳の1ページ目に、やりたいことを書いてみましょう。"],
+  mi:["今年のお金の出入りを振り返って、来年の目標を立ててみましょう。","財布をきれいに拭いて、中身を整えてみましょう。"],
+  tora:["年末年始に会いたい人と、予定を合わせてみましょう。","来年行きたい場所を、ひとつ決めてみましょう。"],
+  "new":"新月の夜。来年の願いをひとつ書いてみましょう。",full:"満月の夜。一年でできたことを3つ数えてみましょう。",
+  p_megumi:"今年学んだことを、ひとつ書き残してみましょう。",p_musubi:"一年のお礼を、直接伝えてみましょう。",p_self:"一年がんばった自分を、言葉にしてねぎらってみましょう。",
+  dbl:"天赦日と一粒万倍日が重なる日。大事な始めごとは、この日に。来年の種になる願いを紙に書いて、目に入る場所へ置いてみましょう。",
+  tsuchi:"60日に一度の己巳の日。来年のお金の目標額と使い道を、紙に書いてみましょう。"}
+];
+var CUR=-1;
+/* あなたの開運日の2回目・3回目の文（恵み／結び／自分 の順、MONTHS と同じ並び） */
+var MP=[
+ [["来年学びたいことの本を、1冊選んでみましょう。","大掃除の合間に、あたたかい飲みものでひと息ついてみましょう。"],["今年お世話になった人に、ひとことお礼を送ってみましょう。","年末年始に会う人との予定を、ひとつ決めてみましょう。"],["来年の自分に持っていきたいものを、ひとつ選んでみましょう。","今年よくやったと思うことを、ひとつ書いてみましょう。"]],
+ [["目標にしたい人のやり方を、ひとつ真似してみましょう。","年のはじめに、ゆっくり眠る日を作ってみましょう。"],["新年のあいさつを、こちらから送ってみましょう。","今年一緒に何かをしたい人を、誘ってみましょう。"],["今年の自分のテーマを、ひとことで決めてみましょう。","好きなものをひとつ、新しくおろしてみましょう。"]],
+ [["毎日続けたい学びを、5分だけやってみましょう。","体をあたためるものを、ゆっくり味わってみましょう。"],["身近な人に、いつものお礼を言葉にしてみましょう。","頼りたいことを、ひとつ人にお願いしてみましょう。"],["自分が落ち着く場所を、ひとつ整えてみましょう。","朝の時間を、10分だけ自分のために使ってみましょう。"]],
+ [["入門の本や動画を、ひとつ見てみましょう。","うまくいっている人の話を、聞いてみましょう。"],["新しい集まりに、ひとつ顔を出してみましょう。","やってみたいことを一緒にできる人を、探してみましょう。"],["自分の「好き」を、3つ書き出してみましょう。","新しい自分に合う色を、ひとつ身につけてみましょう。"]],
+ [["わからないことを、その日のうちに聞いてみましょう。","昼休みに、5分だけ目を閉じて休んでみましょう。"],["名前を覚えたい人に、こちらから名乗ってみましょう。","助けてもらったことに、すぐお礼を伝えてみましょう。"],["今月がんばっていることを、ひとつ認めてみましょう。","疲れたと感じたら、予定をひとつ手放してみましょう。"]],
+ [["緑のある場所で、深呼吸をしてみましょう。","気になっていた展示や催しに、足を運んでみましょう。"],["久しぶりの人に、季節のあいさつを送ってみましょう。","言いそびれていたことを、ひとつ伝えてみましょう。"],["頭の中の気がかりを、紙に全部書き出してみましょう。","着ていない服を、ひとつ手放してみましょう。"]],
+ [["半年で学んだことを、ひとつ書き出してみましょう。","雨の日は無理をせず、早めに帰って休んでみましょう。"],["後半に一緒に取り組みたい人に、声をかけてみましょう。","雨の日に、家族や友人へ電話をしてみましょう。"],["年のはじめの自分に、ひとこと返事を書いてみましょう。","後半の自分のテーマを、ひとつ決めてみましょう。"]],
+ [["心に残った言葉を、ノートに写してみましょう。","教わったことへのお礼を、ひとこと伝えてみましょう。"],["会いたい人に、会いたいと伝えてみましょう。","誰かの良いところを、言葉にして伝えてみましょう。"],["自分の願いを、声に出して読んでみましょう。","言えずにいた本音を、紙に書いてみましょう。"]],
+ [["昼寝の時間を、20分とってみましょう。","冷たいものを控えて、体をいたわってみましょう。"],["暑さを気づかうひとことを、誰かに送ってみましょう。","夏の思い出を、誰かと一緒に作ってみましょう。"],["がんばらない日を、1日決めてみましょう。","体の声を聞いて、早めに休んでみましょう。"]],
+ [["読みかけの本を、もう一度開いてみましょう。","やり方を見直すために、人の意見を聞いてみましょう。"],["最近話していない人に、近況を聞いてみましょう。","一緒に月を眺める人を、誘ってみましょう。"],["年のはじめから変わったところを、ひとつ書いてみましょう。","続けるか迷っていることに、答えを出してみましょう。"]],
+ [["ほめ言葉を、そのまま「ありがとう」と受け取ってみましょう。","手伝ってほしいことを、ひとつ頼んでみましょう。"],["いただきものを、誰かにおすそ分けしてみましょう。","お礼を伝えたい人に、小さな贈りものを選んでみましょう。"],["受け取りたいものを、遠慮せず書いてみましょう。","身の回りを、1か所だけ空けてみましょう。"]],
+ [["今年教わったことを、ひとつ書き残してみましょう。","実りを味わう食事を、ゆっくりとってみましょう。"],["今年出会った人を、思い出して書いてみましょう。","一緒にがんばった人を、ねぎらってみましょう。"],["できたことを、小さなことまで数えてみましょう。","今年の自分に、点数ではなく言葉を贈ってみましょう。"]],
+ [["来年も教わりたい人に、お礼を伝えてみましょう。","年の終わりに、ゆっくり湯船につかってみましょう。"],["来年も会いたい人に、そう伝えてみましょう。","今年の良い知らせを、誰かと分かち合ってみましょう。"],["来年の自分への手紙を、短く書いてみましょう。","今年いちばんうれしかったことを、思い出してみましょう。"]]
+];
+/* 学びの星が巡る日の文（MONTHS と同じ並び） */
+var MN=[
+ ["来年学びたいことを、ひとつ書き出してみましょう。","気になる分野の本を、書店や図書館で探してみましょう。","今年覚えたことを、誰かに話してみましょう。"],
+ ["今年読みたい本を、3冊選んでみましょう。","新しい言葉や知識を、ひとつ調べてみましょう。","学びのためのノートを、1冊用意してみましょう。"],
+ ["寝る前の10分を、読書にあててみましょう。","毎日ひとつ、知らなかったことをメモしてみましょう。","習いたいことの教室や講座を、調べてみましょう。"],
+ ["新しい分野の入門書を、開いてみましょう。","やってみたいことのやり方を、調べてみましょう。","体験できる講座に、ひとつ申し込んでみましょう。"],
+ ["新しく覚えたことを、ノートにまとめてみましょう。","通勤や家事の時間に、音声で学んでみましょう。","わからない言葉を、その場で調べてみましょう。"],
+ ["外に出て、季節の草花の名前を調べてみましょう。","美術館や図書館に、立ち寄ってみましょう。","気になっていた記事や動画を、ひとつ見てみましょう。"],
+ ["半年で学んだことを、振り返ってみましょう。","雨の日に、じっくり読みたい本を選んでみましょう。","後半に身につけたいことを、ひとつ決めてみましょう。"],
+ ["心に残った文章を、書き写してみましょう。","学んだことを、短い言葉で人に伝えてみましょう。","手紙やメッセージの言葉を、丁寧に選んでみましょう。"],
+ ["涼しい場所で、読みたかった本を開いてみましょう。","休みの間に、気になることをひとつ調べてみましょう。","出かけた先で、その土地のことをひとつ学んでみましょう。"],
+ ["秋の夜長に、本を1冊選んでみましょう。","学び直したいことを、ひとつ書いてみましょう。","ノートを読み返して、大事なところに印をつけてみましょう。"],
+ ["人から教わったことを、ひとつ試してみましょう。","役に立った知識を、誰かに分けてみましょう。","来年に向けて学びたいことを、調べてみましょう。"],
+ ["今年身についたことを、3つ書き出してみましょう。","今年読んだ本から、1冊を選んで読み返してみましょう。","教わったことへの感想を、ノートに書いてみましょう。"],
+ ["今年いちばんの学びを、ひとつ書き残してみましょう。","来年の学びの計画を、ざっくり立ててみましょう。","年末年始に読む本を、選んでみましょう。"]
+];
+MN.forEach(function(x,i){MADV[i].p_manabi=x});
+POOL.p_manabi=["読みたかった本を、10分だけ開いてみましょう。","気になることを、ひとつ調べてみましょう。","学びたいことを、ひとつ書き出してみましょう。"];
+var MP4=["読みたかった本を、10分だけ開いてみましょう。","誰かと一緒に、食事やお茶をしてみましょう。","好きなものを、ひとつ選んで身につけてみましょう。"]; // 4回目（31日の月）は共通の文
+MP.forEach(function(x,i){["p_megumi","p_musubi","p_self"].forEach(function(k,j){MADV[i][k]=[MADV[i][k]].concat(x[j],[MP4[j]])})});
+
+/* ---- 日干（自然の姿） ---- */
+var NAT=["大樹","草花","太陽","灯火","山","大地","鉄","宝石","海","雨"];
+var ICON=[ // 大樹 草花 太陽 灯火 山 大地 鉄 宝石 海 雨
+ '<path d="M12 21v-7M9 21h6"/><path d="M12 14c-3.600 0-6-2.300-6-5.500S8.400 3 12 3s6 2.300 6 5.500-2.400 5.500-6 5.500z"/>',
+ '<path d="M12 21v-7.500"/><circle cx="12" cy="8" r="1.500"/><circle cx="12" cy="4.300" r="1.800"/><circle cx="8.400" cy="8" r="1.800"/><circle cx="15.600" cy="8" r="1.800"/><circle cx="12" cy="11.700" r="1.800"/><path d="M12 18c-2.300 0-3.800-1-4.300-2.800 2.300 0 3.800 1 4.300 2.800zM12 18c2.300 0 3.800-1 4.300-2.800-2.300 0-3.800 1-4.300 2.800z"/>',
+ '<circle cx="12" cy="12" r="4"/><path d="M12 2.500v3M12 18.500v3M2.500 12h3M18.500 12h3M5.300 5.300l2.100 2.100M16.600 16.600l2.100 2.100M5.300 18.700l2.100-2.100M16.600 7.400l2.100-2.100"/>',
+ '<path d="M12 3c.8 3 4.200 4.600 4.200 8.600a4.200 4.200 0 0 1-8.400 0c0-2 1-3.100 2-4.600.4 1.400.9 2 1.500 2.100C11.600 7.300 11.400 5 12 3z"/><path d="M9 20.500h6"/>',
+ '<path d="M2.500 19.500l6.500-11 3.600 6 2.400-3.500 6.500 8.500z"/><path d="M7.200 11.500l1.800 1.300 1.700-1.200"/>',
+ '<path d="M3 14h18M5.500 17.500h13M8.500 21h7"/><path d="M12 14V8.500M12 10.500c0-2 1.400-3.200 3.600-3.200 0 2-1.400 3.200-3.600 3.200zM12 9.500c0-1.600-1.100-2.600-3-2.600 0 1.600 1.100 2.600 3 2.600z"/>',
+ '<path d="M4 7.500h13v3c0 1.600-1.800 2.800-4 2.800v3.200h3v3.500H7v-3.500h3v-3.200c-2.600 0-5-2.300-6-5.800zM17 7.500h4"/>',
+ '<path d="M7 4h10l4 5-9 11L3 9zM3 9h18M9.500 4L8 9l4 11 4-11-1.500-5"/>',
+ '<path d="M3 8c2.200-2.400 4.200-2.400 6 0s3.800 2.400 6 0 3.800-2.400 6 0M3 13c2.200-2.400 4.200-2.400 6 0s3.800 2.400 6 0 3.800-2.400 6 0M3 18c2.200-2.400 4.200-2.400 6 0s3.800 2.400 6 0 3.800-2.400 6 0"/>',
+ '<path d="M7.200 14a4 4 0 0 1 .4-8 5 5 0 0 1 9.500 1.400A3.300 3.300 0 0 1 16.800 14z"/><path d="M8.500 17v3M12 17v3M15.500 17v3"/>'
+].map(function(p){return'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">'+p+'</svg>'});
+var ROMA=["kinoe","kinoto","hinoe","hinoto","tsuchinoe","tsuchinoto","kanoe","kanoto","mizunoe","mizunoto"];
+var DESC=[
+ "まっすぐ上へ伸びる大樹。時間をかけて育てたものが、実りになります。",
+ "しなやかに広がる草花。人とのつながりの中で、花を咲かせます。",
+ "周りを照らす太陽。表に出るほど、運が動きます。",
+ "手元を照らす灯火。ひとつのことに心を注ぐと、明るさが増します。",
+ "どっしりと構える山。積み重ねたものが、人を呼び寄せます。",
+ "ものを育てる大地。手入れをした分だけ、実りが返ってきます。",
+ "鍛えて形になる鉄。決めて動くことで、切れ味が出ます。",
+ "磨かれて光る宝石。身の回りを整えるほど、輝きが増します。",
+ "広く流れる海。動くこと、遠くを見ることが力になります。",
+ "静かに潤す雨。少しずつ続けることが、やがて大きな流れになります。"
+];
+var MEG=[ // 自分を育てる干（正印）の日
+ "雨が大樹を育てる日","海の水が草花を潤す日","草花が太陽へ向かって咲く日","大樹が薪となり、灯火を大きくする日","灯火が山をあたためる日",
+ "太陽が大地をあたためる日","大地が鉄を生み出す日","山が宝石を抱いて守る日","宝石が海の水を澄ませる日","鉄が冷えて、雨のしずくを呼ぶ日"
+];
+var MUS=[ // 干合の日（甲己・乙庚・丙辛・丁壬・戊癸）
+ "大樹が大地に根をおろす日","草花と鉄のはさみが出会い、姿が整う日","太陽の光で宝石が輝く日","灯火が夜の海を照らす日","山に雨が降り、緑が育つ日"
+];
+var PNAME={megumi:"恵みの日",musubi:"結びの日",self:"自分の日"}, PCH={megumi:"恵",musubi:"結",self:"自"};
+POOL.p_megumi=["教わりたいことを、ひとつ人に聞いてみましょう。","読みたかった本を、10分だけ開いてみましょう。","早めに休んで、力をためましょう。"];
+POOL.p_musubi=["会いたい人に、こちらから連絡してみましょう。","誰かと一緒に、食事やお茶をしてみましょう。","頼まれごとを、ひとつ引き受けてみましょう。"];
+POOL.p_self=["自分のためだけの時間を、30分とってみましょう。","年のはじめの願いを読み返してみましょう。","好きなものを、ひとつ選んで身につけてみましょう。"];
+var ME=null;
+function megStem(s){return((Math.floor(s/2)+4)%5)*2+(1-s%2)}
+var BEL=[4,2,0,0,2,1,1,2,3,3,2,4]; // 十二支の五行（0木 1火 2土 3金 4水）
+var BUNSHO=[5,6,8,9,8,9,11,0,2,3]; // 文昌貴人（学びの星）の支：甲巳 乙午 丙申 丁酉 戊申 己酉 庚亥 辛子 壬寅 癸卯
+/* 恵み＝育てる干の日（10日周期）と学びの星の支の日（12日周期）を合わせる。
+   結び・自分＝干の日のうち、共通の吉日・新月・満月と重なる日だけ。 */
+function pk(o){
+  if(ME===null)return null;
+  var gen=o.lucky||!!o.moon;
+  var b=o.k%12, el=Math.floor(o.stem/2), myEl=Math.floor(ME/2);
+  // 恵み(1)：育てる干の日のうち、支の五行も自分を育てる五行か自分と同じ五行の日（干も支も味方する日）
+  var bEl=BEL[b], genEl=(myEl+4)%5;
+  if(o.stem===megStem(ME)&&(bEl===myEl||bEl===genEl))return"megumi";
+  if(gen&&o.stem===(ME+5)%10)return"musubi";
+  // 恵み(2)：学びの星の支の日のうち、その日の干が自分と同じ五行か、自分を育てる五行の日（60日に2回）
+  if(b===BUNSHO[ME]&&(el===genEl||el===myEl))return"megumi";
+  if(gen&&o.stem===ME)return"self";
+  return null;
+}
+function special(o){ // 育てる干の恵みの日か結びの日が、一粒万倍日・天赦日に重なる日
+  var p=pk(o);
+  return(p==="musubi"||(p==="megumi"&&o.stem===megStem(ME)))&&(o.man||o.sha);
+}
+function pimg(p){return p==="megumi"?MEG[ME]+"。":p==="musubi"?MUS[ME%5]+"。":NAT[ME]+"の気が重なり、自分らしさが強まる日。"}
+function ptext(o){
+  var p=pk(o); if(!p)return"";
+  if(p==="megumi"&&o.stem!==megStem(ME))return"学びの星が巡る日。"+pick("p_manabi");
+  return NAT[o.stem]+"の日。"+pimg(p)+pick("p_"+p);
+}
+
+var cnt={};
+function pick(key){
+  var a=(CUR>=0&&MADV[CUR][key])||POOL[key];
+  if(typeof a==="string")return a;
+  var ck=CUR+":"+key; cnt[ck]=cnt[ck]||0; return a[cnt[ck]++%a.length];
+}
+function names(o){
+  var a=[];
+  if(o.sha)a.push("天赦日"); if(o.man)a.push("一粒万倍日");
+  if(o.tsuchi)a.push("己巳の日"); else if(o.mi)a.push("巳の日");
+  if(o.tora)a.push("寅の日");
+  if(pk(o))a.push(PNAME[pk(o)]);
+  if(o.moon)a.push(o.moon==="new"?"新月":"満月");
+  return a;
+}
+function advice(o){
+  var t;
+  if(o.sha&&o.man)t=pick("dbl");
+  else if(o.sha)t=pick("sha");
+  else if(o.man&&o.tsuchi)t="一粒万倍日と己巳の日が重なる、金運の吉日。"+pick("tsuchi").replace("60日に一度の己巳の日。","");
+  else if(o.man&&o.mi)t="一粒万倍日と巳の日が重なる日。"+pick("mi");
+  else if(o.man&&o.tora)t="一粒万倍日と寅の日が重なる日。"+pick("tora");
+  else if(o.man)t=pick("man");
+  else if(o.tsuchi)t=pick("tsuchi");
+  else if(o.mi)t=pick("mi");
+  else if(o.tora)t=pick("tora");
+  else t="";
+  if(o.moon)t+=(t?" ":"")+pick(o.moon);
+  return t;
+}
+function seals(o){
+  var h="";
+  if(o.sha)h+='<span class="seal sha">赦</span>';
+  if(o.man)h+='<span class="seal man">万</span>';
+  if(o.mi)h+='<span class="seal mi">巳</span>';
+  if(o.tora)h+='<span class="seal tora">寅</span>';
+  if(pk(o))h+='<span class="seal p '+pk(o)+'">'+PCH[pk(o)]+'</span>';
+  if(o.moon)h+='<i class="moon '+o.moon+'"></i>';
+  return h;
+}
+
+/* ---- 描画 ---- */
+var now=new Date(Date.now()+9*36e5), todayN=dn(now.getUTCFullYear(),now.getUTCMonth()+1,now.getUTCDate());
+function mid(y,m){return"m"+y+"-"+(m<10?"0":"")+m}
+function did(n){return"d"+n}
+
+function render(){
+cnt={};
+var navH="", monH="", lastY=0;
+MONTHS.forEach(function(M,mIdx){
+  CUR=mIdx;
+  var y=M[0], m=M[1], first=dn(y,m,1), len=dn(m===12?y+1:y,m===12?1:m+1,1)-first, w0=ymd(first).w;
+  if(y!==lastY){navH+='<li class="yr num">'+y+'</li>';lastY=y}
+  navH+='<li><button type="button" data-go="'+mid(y,m)+'">'+m+'月</button></li>';
+  var g="", list="", i;
+  for(i=0;i<7;i++)g+='<div class="dow'+(i===0?" sun":i===6?" sat":"")+'">'+DOW[i]+'</div>';
+  for(i=0;i<w0;i++)g+='<div class="cell blank"></div>';
+  for(var d=1;d<=len;d++){
+    var o=info(first+d-1);
+    o.marked=o.marked||!!pk(o);
+    var gen=advice(o), mine=ptext(o), sp=special(o);
+    var cls="cell"+(o.w===0?" sun":o.w===6?" sat":"")+(o.sha?" has-sha":"")+(sp?" sp":"")+(o.n===todayN?" today":"");
+    var inner='<span class="n num">'+d+'</span><span class="marks">'+seals(o)+'</span>';
+    if(o.marked){
+      g+='<button type="button" class="'+cls+'" data-day="'+did(o.n)+'" aria-label="'+m+'月'+d+'日 '+names(o).join("、")+'">'+inner+'</button>';
+      list+='<li id="'+did(o.n)+'"><div class="date num">'+m+'/'+d+'<small>'+DOW[o.w]+'曜</small></div><div class="body">'
+        +(sp?'<span class="dbl-flag mine-flag">あなたの特別な日</span>':'')
+        +(o.sha&&o.man?'<span class="dbl-flag">最上の吉日</span>':'')
+        +'<div class="tags">'+seals(o)+'<span>'+names(o).join("・")+'</span></div>'
+        +(gen?'<p class="do">'+gen+'</p>':'')+(mine?'<p class="do mine">'+mine+'</p>':'')+'</div></li>';
+    }else g+='<div class="'+cls+'">'+inner+'</div>';
+  }
+  var tail=(7-(w0+len)%7)%7; for(i=0;i<tail;i++)g+='<div class="cell blank"></div>';
+  var sea=m>=3&&m<=5?["haru","春"]:m>=6&&m<=8?["natsu","夏"]:m>=9&&m<=11?["aki","秋"]:["fuyu","冬"];
+  monH+='<section class="wrap month s-'+sea[0]+'" id="'+mid(y,m)+'"><div class="m-head"><div class="m-num num">'+m+'<small>月</small></div><div class="m-meta num"><b>'+M[2]+'</b>'+y+'・'+sea[1]+'</div></div>'
+    +'<h2 class="m-theme">'+M[3]+'</h2><p class="m-text">'+M[4]+'</p><div class="grid">'+g+'</div><ol class="days">'+list+'</ol></section>';
+});
+var navEl=document.getElementById("nav"); if(!navEl.firstChild)navEl.innerHTML=navH;
+document.getElementById("months").innerHTML=monH;
+
+/* 特に良い日・集計 */
+var best="", c={man:0,sha:0,mi:0,tsuchi:0,tora:0};
+for(var n=dn(2027,1,1);n<=dn(2027,12,31);n++){
+  var o=info(n);
+  if(o.man)c.man++; if(o.sha)c.sha++; if(o.mi)c.mi++; if(o.tsuchi)c.tsuchi++; if(o.tora)c.tora++;
+  if(o.sha||special(o)){
+    var sp2=special(o), nm2=names(o).filter(function(x){return x!=="新月"&&x!=="満月"});
+    best+='<li class="'+(sp2?"sp":o.man?"dbl":"")+'" data-day="'+did(n)+'" tabindex="0" role="button"><span class="d num">'+o.m+'月'+o.d+'日<small>'+DOW[o.w]+'</small></span><span class="t">'
+      +'<b>'+nm2.join("・")+'</b>。'+(sp2?pimg(pk(o)):o.sha&&o.man?'年のなかでも最上の吉日です。':'')+'</span></li>';
+  }
+}
+document.getElementById("bestList").innerHTML=best;
+document.getElementById("bestTitle").textContent=ME===null?"2027年の天赦日":NAT[ME]+"のあなたの、特に良い日";
+document.getElementById("bestLead").textContent=ME===null
+  ?"まずはこの日だけ、手帳に書き写しておくのがおすすめです。一粒万倍日と重なる日は、年のなかでもいちばんの吉日とされます。"
+  :"天赦日と、あなたの恵みの日・結びの日が一粒万倍日や天赦日に重なる日です。紫の日が、"+NAT[ME]+"のあなたにとっての特別な日。";
+document.getElementById("counts").textContent="2027年は、天赦日が"+c.sha+"日、一粒万倍日が"+c.man+"日、巳の日が"+c.mi+"日（うち己巳の日が"+c.tsuchi+"日）、寅の日が"+c.tora+"日あります。";
+
+/* 今日 */
+(function(){
+  var t=info(todayN), nm=names(t), next=null;
+  CUR=-1; cnt={}; MONTHS.forEach(function(M,i){if(M[0]===t.y&&M[1]===t.m)CUR=i});
+  for(var i=1;i<=60&&!next;i++){var x=info(todayN+i), xp=pk(x); if(x.lucky||xp==="megumi"||xp==="musubi")next=x}
+  var tt=[advice(t),ptext(t)].filter(Boolean).join(" ");
+  var h='<div class="today-row"><span class="today-label">今日</span><div><div class="today-main num">'+t.m+'月'+t.d+'日（'+DOW[t.w]+'）'+(nm.length?' '+nm.join("・"):'')+'</div><div class="today-sub">'
+    +(tt||'印のない日です。いつも通りで大丈夫。')+'</div></div></div>';
+  if(next){
+    var gap=next.n-todayN;
+    h+='<div class="today-row"><span class="today-label">次の吉日</span><div><div class="today-main num">'+next.m+'月'+next.d+'日（'+DOW[next.w]+'）'+names(next).join("・")+'</div><div class="today-sub num">'+(gap===1?'明日です。':'あと'+gap+'日。')+'</div></div></div>';
+  }
+  var target=document.getElementById(mid(t.y,t.m))?mid(t.y,t.m):MONTHS[0][0]+"" && mid(MONTHS[0][0],MONTHS[0][1]);
+  var here=!!document.getElementById(mid(t.y,t.m));
+  h+='<button type="button" class="jump" data-go="'+target+'">'+(here?'今月を見る':MONTHS[0][1]+'月から見る')+'</button>';
+  document.getElementById("today").innerHTML=h;
+})();
+}
+
+/* ---- 表紙の絵（本質ごと） ---- */
+var SCENE=(function(){
+  function P(c,d){return'<path class="'+c+'" d="'+d+'"/>'}
+  function C(c,x,y,r){return'<circle class="'+c+'" cx="'+x+'" cy="'+y+'" r="'+r+'"/>'}
+  function L(c,x1,y1,x2,y2){return'<path class="'+c+'" d="M'+x1+','+y1+' L'+x2+','+y2+'"/>'}
+  function R(c,x,y,w,h){return'<rect class="'+c+'" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'"/>'}
+  function each(a,f){return a.map(f).join("")}
+  var FRONT=P("front","M0,202 C200,176 400,208 600,196 S1000,180 1200,202 V221 H0Z");
+  var HA="M0,170 C200,130 380,160 600,150 S1000,120 1200,160 V220 H0Z";
+  var HB="M0,190 C250,160 450,185 700,175 S1050,160 1200,185 V220 H0Z";
+  function tree(x,s){return R("back",x-5*s,195-70*s,10*s,70*s)+C("back",x,195-95*s,42*s)+C("back",x-30*s,195-75*s,30*s)+C("back",x+30*s,195-75*s,30*s)}
+  function flower(x,h){var y=200-h;return L("ln",x,200,x,y)
+    +P("back","M"+x+","+(y+h*.55)+" q14,-4 18,-18 q-14,4 -18,18z M"+x+","+(y+h*.7)+" q-14,-4 -18,-18 q14,4 18,18z")
+    +each([[0,-8],[7.6,-2.500],[4.700,6.500],[-4.700,6.500],[-7.600,-2.500]],function(p){return C("snow",x+p[0],y+p[1],5)})+C("gold",x,y,4.500)}
+  function flame(x,y,s){return C("glow",x,y,30*s)+R("snow",x-4*s,y+12*s,8*s,200-y-12*s)
+    +P("gold","M"+x+","+(y-18*s)+" C"+(x+10*s)+","+(y-6*s)+" "+(x+9*s)+","+(y+8*s)+" "+x+","+(y+10*s)+" C"+(x-9*s)+","+(y+8*s)+" "+(x-10*s)+","+(y-6*s)+" "+x+","+(y-18*s)+"Z")}
+  function crystal(x,w,h){var t=200-h,m=t+w*.5;return P("back","M"+(x-w/2)+",200 V"+m+" L"+x+","+t+" L"+(x+w/2)+","+m+" V200Z")+P("far","M"+x+",200 V"+t+" L"+(x+w/2)+","+m+" V200Z")+P("ls","M"+(x-w/2)+","+m+" L"+x+","+t)}
+  function star(x,y,r){var q=r*.25;return P("gold","M"+x+","+(y-r)+" L"+(x+q)+","+(y-q)+" L"+(x+r)+","+y+" L"+(x+q)+","+(y+q)+" L"+x+","+(y+r)+" L"+(x-q)+","+(y+q)+" L"+(x-r)+","+y+" L"+(x-q)+","+(y-q)+"Z")}
+  function wave(c,x0,y,a){var d="M"+x0+","+y+" q50,"+(-a)+" 100,0";for(var i=0;i<13;i++)d+=" t100,0";return P(c,d+" V220 H"+x0+"Z")}
+  function cloud(x,y,s){return C("back",x,y,24*s)+C("back",x+30*s,y-13*s,31*s)+C("back",x+64*s,y,24*s)+R("back",x,y,64*s,24*s)}
+  function sprout(x,y,s){s=s||1.600;var a=10*s,b=2*s,c=12*s,d=13*s;return P("snow","M"+x+","+y+" q"+(-a)+","+(-b)+" "+(-c)+","+(-d)+" q"+a+","+b+" "+c+","+d+"z M"+x+","+y+" q"+a+","+(-b)+" "+c+","+(-d)+" q"+(-a)+","+b+" "+(-c)+","+d+"z")}
+  var MT=P("far","M0,150 L90,112 L160,132 L260,58 L330,104 L400,82 L500,142 L600,92 L690,60 L770,96 L840,72 L930,132 L1020,86 L1100,122 L1200,70 V220 H0Z")
+    +P("snow","M260,58 L238,82 L252,77 L262,88 L272,76 L287,84Z M690,60 L668,84 L682,79 L692,91 L702,78 L717,86Z")
+    +P("back","M0,186 L120,142 L210,168 L330,112 L430,162 L540,126 L640,174 L760,118 L850,152 L960,104 L1060,162 L1200,124 V220 H0Z");
+  var rays="";for(var a=180;a<=360;a+=22.500){var r=a*Math.PI/180;rays+=L("lg",(600+92*Math.cos(r)).toFixed(1),(148+92*Math.sin(r)).toFixed(1),(600+122*Math.cos(r)).toFixed(1),(148+122*Math.sin(r)).toFixed(1))}
+  var rain="";for(var i=0,x=40;x<1190;x+=46,i++){var y0=118+(i%3)*14;rain+=L("ls",x,y0,x-9,y0+26)}
+  var S=[
+   /* 大樹 */ P("far",HA)+each([[120,.6],[255,.85],[410,.55],[790,.6],[935,.9],[1090,.6]],function(t){return tree(t[0],t[1])})+tree(600,1.250)+C("gold",578,92,5)+C("gold",624,78,5)+C("gold",606,118,5)+C("gold",560,120,4),
+   /* 草花 */ P("far",HB)+each([[70,52],[135,84],[205,60],[270,96],[340,70],[405,48],[470,88],[535,64],[600,104],[665,58],[730,90],[800,66],[865,50],[930,94],[1000,62],[1065,82],[1135,56]],function(f){return flower(f[0],f[1])}),
+   /* 太陽 */ C("glow",600,148,128)+rays+C("gold",600,148,72)+P("far",HA)+P("back",HB),
+   /* 灯火 */ P("far",HB)+each([[150,150,.8],[300,128,1],[450,158,.7],[600,104,1.400],[760,154,.8],[905,124,1],[1055,150,.8]],function(f){return flame(f[0],f[1],f[2])}),
+   /* 山   */ MT,
+   /* 大地 */ P("far",HA)+P("back",HB)+P("lf","M0,198 C250,168 450,193 700,183 S1050,168 1200,193")+P("lf","M0,207 C250,177 450,202 700,192 S1050,177 1200,202")
+              +each([[60,184],[150,178],[240,174],[330,174],[420,176],[510,178],[600,178],[690,176],[780,172],[870,169],[960,168],[1050,170],[1140,176]],function(p){return sprout(p[0],p[1])})
+              +each([[110,160],[290,150],[440,154],[760,142],[900,136],[1040,134],[1170,150]],function(p){return sprout(p[0],p[1],1.100)})
+              +L("ls",600,180,600,128)+sprout(600,150,3.200)+C("gold",600,104,7),
+   /* 鉄   */ P("far","M0,175 L70,125 L140,160 L230,95 L310,150 L400,120 L480,172 L720,172 L800,115 L880,155 L970,90 L1050,150 L1130,120 L1200,165 V220 H0Z")+P("back",HB)
+              +P("snow","M540,122 H650 V134 C650,148 632,154 615,154 V172 H640 V192 H560 V172 H585 V154 C560,154 545,142 540,122Z M650,122 H694 L650,134Z")
+              +each([[600,112,600,92],[588,112,572,96],[612,112,628,96],[578,114,556,108],[622,114,644,108]],function(l){return L("lg",l[0],l[1],l[2],l[3])})+C("gold",566,84,3)+C("gold",636,82,3)+C("gold",600,76,3.500),
+   /* 宝石 */ P("far",HB)+each([[180,40,92],[228,30,60],[415,34,76],[555,44,112],[610,58,140],[668,38,98],[822,34,80],[980,46,108],[1032,30,68]],function(c){return crystal(c[0],c[1],c[2])})+star(705,82,11)+star(486,112,7)+star(900,84,8)+star(300,120,6),
+   /* 海   */ C("glow",770,96,62)+C("gold",770,96,34)+wave("far",-50,146,22)+L("lg",735,158,805,158)+L("lg",748,170,792,170)+wave("back",0,172,18),
+   /* 雨   */ each([[130,92,1],[470,84,1.300],[850,96,1.100],[1070,88,.8]],function(c){return cloud(c[0],c[1],c[2])})+rain+P("far",HA)+P("back",HB)
+  ];
+  return function(s){return(s===null?MT:S[s])+FRONT};
+})();
+
+/* 日干の選択 */
+var kanH="";
+for(var s0=0;s0<10;s0++)kanH+='<button type="button" data-kan="'+s0+'" aria-pressed="false">'+ICON[s0]+'<b>'+NAT[s0]+'</b></button>';
+document.getElementById("kanBtns").innerHTML=kanH;
+function store(v){try{if(v===null)localStorage.removeItem("kaiun-kan");else localStorage.setItem("kaiun-kan",String(v))}catch(e){}}
+function setMe(s,fromHash){
+  ME=s;
+  [].forEach.call(document.querySelectorAll("[data-kan]"),function(b){b.setAttribute("aria-pressed",String(+b.getAttribute("data-kan")===s))});
+  var me=document.getElementById("me");
+  if(s===null){me.hidden=true;me.innerHTML=""}
+  else{
+    var g=megStem(s), u=(s+5)%10;
+    me.hidden=false;
+    me.innerHTML='<h3>'+ICON[s]+NAT[s]+'のあなた</h3><p>'+DESC[s]+'</p><ul>'
+      +'<li><span class="seal p megumi">恵</span><b>恵みの日<small>'+NAT[g]+'の日や、学びの星が巡る日</small></b><span class="x">'+MEG[s]+'。空からも地からも、あなたを育てる気が届きます。学ぶこと、人に頼ること、休むことに。</span></li>'
+      +'<li><span class="seal p musubi">結</span><b>結びの日<small>'+NAT[u]+'の日が吉日に重なるとき</small></b><span class="x">'+MUS[s%5]+'。干合（かんごう）と呼ばれる、ご縁の組み合わせです。人と会うこと、約束ごとに。</span></li>'
+      +'<li><span class="seal p self">自</span><b>自分の日<small>'+NAT[s]+'の日が吉日に重なるとき</small></b><span class="x">あなたと同じ'+NAT[s]+'の日。自分の気持ちを確かめる日に。</span></li>'
+      +'</ul>';
+  }
+  store(s);
+  if(!fromHash){try{location.hash=s===null?"":ROMA[s]}catch(e){}}
+  render(); observe();
+}
+
+/* 操作 */
+function smooth(){return window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"}
+function goDay(id){
+  var el=document.getElementById(id); if(!el)return;
+  el.scrollIntoView({behavior:smooth(),block:"start"});
+  el.classList.add("hit"); setTimeout(function(){el.classList.remove("hit")},1800);
+}
+document.addEventListener("click",function(e){
+  var a=e.target.closest("[data-go]"), b=e.target.closest("[data-day]"), kb=e.target.closest("[data-kan]");
+  if(kb){var sv=+kb.getAttribute("data-kan"); document.getElementById("birthOut").textContent=""; setMe(ME===sv?null:sv); return}
+  if(a){var s=document.getElementById(a.getAttribute("data-go")); if(s)s.scrollIntoView({behavior:smooth(),block:"start"})}
+  else if(b)goDay(b.getAttribute("data-day"));
+});
+document.addEventListener("keydown",function(e){
+  if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches("li[data-day]")){e.preventDefault();goDay(e.target.getAttribute("data-day"))}
+});
+document.getElementById("birth").addEventListener("change",function(e){
+  var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(e.target.value), out=document.getElementById("birthOut");
+  if(!m){out.textContent="";return}
+  var sv=kanshi(dn(+m[1],+m[2],+m[3]))%10;
+  setMe(sv); out.textContent="あなたの本質は「"+NAT[sv]+"」です。";
+});
+var io=null;
+function observe(){
+  if(!("IntersectionObserver" in window))return;
+  if(io)io.disconnect();
+  var btns={}; [].forEach.call(document.querySelectorAll("#nav button"),function(b){btns[b.getAttribute("data-go")]=b});
+  io=new IntersectionObserver(function(es){es.forEach(function(en){
+    if(!en.isIntersecting)return;
+    for(var k in btns)btns[k].removeAttribute("aria-current");
+    var b=btns[en.target.id]; if(b){b.setAttribute("aria-current","true");
+      var ol=b.closest("ol"); ol.scrollLeft=b.offsetLeft-ol.offsetLeft-ol.clientWidth/2+b.offsetWidth/2}
+  })},{rootMargin:"-30% 0px -65% 0px"});
+  [].forEach.call(document.querySelectorAll(".month"),function(s){io.observe(s)});
+}
+function fromHash(){return ROMA.indexOf((location.hash||"").slice(1))}
+(function(){
+  var s=fromHash();
+  if(s<0){try{var v=localStorage.getItem("kaiun-kan"); if(v!==null&&/^[0-9]$/.test(v))s=+v}catch(e){}}
+  setMe(s>=0?s:null,true);
+})();
+window.addEventListener("hashchange",function(){var s=fromHash(); if(s>=0&&s!==ME)setMe(s,true)});
+window.__koyomi={info:info,dn:dn,ymd:ymd,sunLon:sunLon,MOONT:MOONT,setMe:setMe,pk:pk};
+})();
+</script>
+
+</body>
+</html>
